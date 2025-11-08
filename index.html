@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,10 +9,7 @@
     />
     <meta property="og:title" content="Café do Bairro — Sabor artesanal e aconchego" />
     <meta property="og:description" content="Peça online ou venha nos visitar! Experimente nossos cafés especiais." />
-    <meta
-      property="og:image"
-      content="https://icaroaugusto137.github.io/cafe-do-bairro/A_high-resolution_digital_photograph_captures_the_.png"
-    />
+    <meta property="og:image" content="https://icaroaugusto137.github.io/cafe-do-bairro/A_high-resolution_digital_photograph_captures_the_.png" />
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/924/924514.png" />
     <title>Café do Bairro</title>
@@ -46,6 +42,19 @@
       html {
         scroll-behavior: smooth;
       }
+      .fade-in {
+        animation: fadeIn 0.8s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
     </style>
   </head>
 
@@ -53,9 +62,7 @@
     <!-- Cabeçalho -->
     <header class="fixed top-0 w-full backdrop-blur bg-white/70 dark:bg-neutral-900/70 shadow-md z-50">
       <div class="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
-        <h1
-          class="text-2xl md:text-3xl font-bold text-cafe-700 dark:text-cafe-300 tracking-tight flex items-center gap-2"
-        >
+        <h1 class="text-2xl md:text-3xl font-bold text-cafe-700 dark:text-cafe-300 tracking-tight flex items-center gap-2">
           ☕ <span>Café do Bairro</span>
         </h1>
         <nav class="hidden md:flex gap-8 text-lg font-medium">
@@ -115,7 +122,6 @@
     <section id="menu" class="bg-cafe-100 dark:bg-neutral-800 py-20 px-6 text-center">
       <h3 class="text-3xl font-bold mb-10 text-cafe-800 dark:text-cafe-200">Nosso Menu</h3>
 
-      <!-- filtros de categorias -->
       <div id="categorias" class="flex flex-wrap justify-center gap-4 mb-10"></div>
 
       <div id="menu-container" class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto"></div>
@@ -194,14 +200,16 @@
           const response = await fetch(API_URL + "/produtos");
           const produtos = await response.json();
 
-          // Obter categorias únicas
-          const categorias = [...new Set(produtos.map((p) => p.categoria_id))];
+          // Categorias únicas
+          const categorias = [...new Set(produtos.map((p) => Number(p.categoria_id)))];
           categoriasDiv.innerHTML =
             '<button onclick="filtrarMenu(0)" class="bg-cafe-700 hover:bg-cafe-800 text-white px-4 py-2 rounded-full">Todos</button>' +
             categorias
               .map(
                 (id) =>
-                  `<button onclick="filtrarMenu(${id})" class="bg-cafe-600 hover:bg-cafe-700 text-white px-4 py-2 rounded-full">${id == 1 ? "Bebidas" : id == 2 ? "Sobremesas" : "Salgados"}</button>`
+                  `<button onclick="filtrarMenu(${id})" class="bg-cafe-600 hover:bg-cafe-700 text-white px-4 py-2 rounded-full">${
+                    id === 1 ? "Bebidas" : id === 2 ? "Sobremesas" : "Salgados"
+                  }</button>`
               )
               .join("");
 
@@ -219,21 +227,22 @@
         container.innerHTML = lista
           .map(
             (p) => `
-        <div class="bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-md hover:shadow-2xl transition transform hover:-translate-y-1">
-          <img src="${p.imagem_url}" alt="${p.nome}" class="rounded-lg mb-4 h-48 w-full object-cover" />
-          <h4 class="text-xl font-semibold mb-2">${p.nome}</h4>
-          <p class="text-sm mb-2">${p.descricao}</p>
-          <p class="text-lg font-bold text-cafe-700 dark:text-cafe-300">R$ ${p.preco
-            .toFixed(2)
-            .replace(".", ",")}</p>
-        </div>`
+          <div class="bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 fade-in">
+            <img src="${p.imagem_url}" alt="${p.nome}" class="rounded-lg mb-4 h-48 w-full object-cover" />
+            <h4 class="text-xl font-semibold mb-2">${p.nome}</h4>
+            <p class="text-sm mb-2">${p.descricao}</p>
+            <p class="text-lg font-bold text-cafe-700 dark:text-cafe-300">R$ ${Number(p.preco)
+              .toFixed(2)
+              .replace(".", ",")}</p>
+          </div>`
           )
           .join("");
       }
 
       function filtrarMenu(id) {
-        if (id === 0) renderizarMenu(window.produtos);
-        else renderizarMenu(window.produtos.filter((p) => p.categoria_id === id));
+        const idNum = Number(id);
+        if (idNum === 0) renderizarMenu(window.produtos);
+        else renderizarMenu(window.produtos.filter((p) => Number(p.categoria_id) === idNum));
       }
 
       document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
