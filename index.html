@@ -3,9 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Café do Bairro — grãos selecionados, sabor artesanal e o melhor atendimento da cidade." />
-    <title>Café do Bairro</title>
+    <meta
+      name="description"
+      content="Café do Bairro — grãos selecionados, sabor artesanal e o melhor atendimento da cidade."
+    />
+    <meta property="og:title" content="Café do Bairro — Sabor artesanal e aconchego" />
+    <meta property="og:description" content="Peça online ou venha nos visitar! Experimente nossos cafés especiais." />
+    <meta property="og:image" content="https://icaroaugusto137.github.io/cafe-do-bairro/A_high-resolution_digital_photograph_captures_the_.png" />
+    <meta property="og:type" content="website" />
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/924/924514.png" />
+    <title>Café do Bairro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -31,14 +38,19 @@
         },
       };
     </script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
   </head>
 
   <body class="bg-cafe-50 dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 font-sans antialiased">
     <!-- Cabeçalho -->
     <header class="fixed top-0 w-full backdrop-blur bg-white/70 dark:bg-neutral-900/70 shadow-md z-50">
       <div class="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
-        <h1 class="text-2xl md:text-3xl font-bold text-cafe-700 dark:text-cafe-300 tracking-tight">
-          ☕ Café do Bairro
+        <h1 class="text-2xl md:text-3xl font-bold text-cafe-700 dark:text-cafe-300 tracking-tight flex items-center gap-2">
+          ☕ <span>Café do Bairro</span>
         </h1>
         <nav class="hidden md:flex gap-8 text-lg font-medium">
           <a href="#sobre" class="hover:text-cafe-600 dark:hover:text-cafe-400 transition">Sobre</a>
@@ -50,16 +62,18 @@
     </header>
 
     <!-- Hero -->
-    <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-24 bg-gradient-to-br from-cafe-100 to-cafe-50 dark:from-neutral-800 dark:to-neutral-900">
+    <section
+      class="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-24 bg-gradient-to-br from-cafe-100 to-cafe-50 dark:from-neutral-800 dark:to-neutral-900"
+    >
       <img
-        src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80"
-        alt="Xícara de café"
-        class="rounded-2xl shadow-2xl w-full max-w-md transform hover:scale-105 transition duration-700 ease-in-out"
+        src="https://icaroaugusto137.github.io/cafe-do-bairro/A_high-resolution_digital_photograph_captures_the_.png"
+        alt="Interior do Café do Bairro"
+        class="rounded-2xl shadow-2xl w-full max-w-md md:max-w-lg transform hover:scale-105 transition duration-700 ease-in-out object-cover"
       />
       <h2 class="text-4xl md:text-5xl font-extrabold mt-8 text-cafe-800 dark:text-cafe-200">
         Sabor artesanal e aconchego
       </h2>
-      <p class="mt-4 text-lg md:text-xl max-w-2xl leading-relaxed">
+      <p class="mt-4 text-lg md:text-xl max-w-2xl leading-relaxed text-neutral-700 dark:text-neutral-300">
         Descubra o prazer de um bom café preparado com grãos selecionados e muito carinho.
         Peça online ou venha nos visitar!
       </p>
@@ -76,31 +90,28 @@
       <div class="md:flex items-center gap-10">
         <div class="md:w-1/2">
           <img
-            src="https://images.unsplash.com/photo-1578677037565-d23f6d6b5073?auto=format&fit=crop&w=900&q=80"
+            src="https://icaroaugusto137.github.io/cafe-do-bairro/A_high-resolution_digital_photograph_captures_the_.png"
             alt="Interior da cafeteria Café do Bairro"
             class="rounded-xl shadow-lg"
           />
         </div>
         <div class="md:w-1/2 mt-8 md:mt-0">
-          <h3 class="text-3xl font-bold text-cafe-700 dark:text-cafe-300 mb-4">
-            Um espaço feito para você
-          </h3>
+          <h3 class="text-3xl font-bold text-cafe-700 dark:text-cafe-300 mb-4">Um espaço feito para você</h3>
           <p class="text-lg leading-relaxed">
-            No Café do Bairro, acreditamos que cada xícara é uma pausa merecida. Um lugar
-            para conversar, relaxar e saborear o melhor café artesanal, preparado por baristas
-            apaixonados.
+            No Café do Bairro, acreditamos que cada xícara é uma pausa merecida. Um lugar para conversar, relaxar e
+            saborear o melhor café artesanal, preparado por baristas apaixonados.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- Menu dinâmico -->
+    <!-- Menu -->
     <section id="menu" class="bg-cafe-100 dark:bg-neutral-800 py-20 px-6 text-center">
       <h3 class="text-3xl font-bold mb-10 text-cafe-800 dark:text-cafe-200">Nosso Menu</h3>
       <div id="menu-container" class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         <!-- produtos carregados via JS -->
       </div>
-      <p id="menu-loader" class="mt-6 text-neutral-600 dark:text-neutral-300">Carregando produtos...</p>
+      <p id="menu-loader" class="mt-6 text-neutral-600 dark:text-neutral-300 animate-pulse">Carregando produtos...</p>
     </section>
 
     <!-- Cadastro -->
@@ -161,9 +172,9 @@
       </p>
     </footer>
 
-    <!-- Script principal -->
+    <!-- Script -->
     <script>
-      const API_URL = "https://cafe-do-bairro-db.onrender.com"; // Backend Render
+      const API_URL = "https://cafe-do-bairro-db.onrender.com";
 
       async function carregarMenu() {
         const container = document.getElementById("menu-container");
@@ -179,7 +190,9 @@
               <img src="${p.imagem_url}" alt="${p.nome}" class="rounded-lg mb-4 h-40 w-full object-cover" />
               <h4 class="text-xl font-semibold mb-2">${p.nome}</h4>
               <p class="text-sm mb-2">${p.descricao}</p>
-              <p class="text-lg font-bold text-cafe-700 dark:text-cafe-300">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
+              <p class="text-lg font-bold text-cafe-700 dark:text-cafe-300">R$ ${p.preco
+                .toFixed(2)
+                .replace(".", ",")}</p>
             </div>`
             )
             .join("");
