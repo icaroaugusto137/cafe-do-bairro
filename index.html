@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +10,10 @@
     />
     <meta property="og:title" content="Café do Bairro — Sabor artesanal e aconchego" />
     <meta property="og:description" content="Peça online ou venha nos visitar! Experimente nossos cafés especiais." />
-    <meta property="og:image" content="https://icaroaugusto137.github.io/cafe-do-bairro/A_high-resolution_digital_photograph_captures_the_.png" />
+    <meta
+      property="og:image"
+      content="https://icaroaugusto137.github.io/cafe-do-bairro/A_high-resolution_digital_photograph_captures_the_.png"
+    />
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/924/924514.png" />
     <title>Café do Bairro</title>
@@ -49,7 +53,9 @@
     <!-- Cabeçalho -->
     <header class="fixed top-0 w-full backdrop-blur bg-white/70 dark:bg-neutral-900/70 shadow-md z-50">
       <div class="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
-        <h1 class="text-2xl md:text-3xl font-bold text-cafe-700 dark:text-cafe-300 tracking-tight flex items-center gap-2">
+        <h1
+          class="text-2xl md:text-3xl font-bold text-cafe-700 dark:text-cafe-300 tracking-tight flex items-center gap-2"
+        >
           ☕ <span>Café do Bairro</span>
         </h1>
         <nav class="hidden md:flex gap-8 text-lg font-medium">
@@ -108,9 +114,12 @@
     <!-- Menu -->
     <section id="menu" class="bg-cafe-100 dark:bg-neutral-800 py-20 px-6 text-center">
       <h3 class="text-3xl font-bold mb-10 text-cafe-800 dark:text-cafe-200">Nosso Menu</h3>
-      <div id="menu-container" class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        <!-- produtos carregados via JS -->
-      </div>
+
+      <!-- filtros de categorias -->
+      <div id="categorias" class="flex flex-wrap justify-center gap-4 mb-10"></div>
+
+      <div id="menu-container" class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto"></div>
+
       <p id="menu-loader" class="mt-6 text-neutral-600 dark:text-neutral-300 animate-pulse">Carregando produtos...</p>
     </section>
 
@@ -179,27 +188,52 @@
       async function carregarMenu() {
         const container = document.getElementById("menu-container");
         const loader = document.getElementById("menu-loader");
+        const categoriasDiv = document.getElementById("categorias");
+
         try {
           const response = await fetch(API_URL + "/produtos");
           const produtos = await response.json();
+
+          // Obter categorias únicas
+          const categorias = [...new Set(produtos.map((p) => p.categoria_id))];
+          categoriasDiv.innerHTML =
+            '<button onclick="filtrarMenu(0)" class="bg-cafe-700 hover:bg-cafe-800 text-white px-4 py-2 rounded-full">Todos</button>' +
+            categorias
+              .map(
+                (id) =>
+                  `<button onclick="filtrarMenu(${id})" class="bg-cafe-600 hover:bg-cafe-700 text-white px-4 py-2 rounded-full">${id == 1 ? "Bebidas" : id == 2 ? "Sobremesas" : "Salgados"}</button>`
+              )
+              .join("");
+
           loader.style.display = "none";
-          container.innerHTML = produtos
-            .map(
-              (p) => `
-            <div class="bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-md hover:shadow-xl transition">
-              <img src="${p.imagem_url}" alt="${p.nome}" class="rounded-lg mb-4 h-40 w-full object-cover" />
-              <h4 class="text-xl font-semibold mb-2">${p.nome}</h4>
-              <p class="text-sm mb-2">${p.descricao}</p>
-              <p class="text-lg font-bold text-cafe-700 dark:text-cafe-300">R$ ${p.preco
-                .toFixed(2)
-                .replace(".", ",")}</p>
-            </div>`
-            )
-            .join("");
+          renderizarMenu(produtos);
+          window.produtos = produtos;
         } catch (error) {
           loader.innerText = "Erro ao carregar o menu.";
           console.error("Erro ao buscar produtos:", error);
         }
+      }
+
+      function renderizarMenu(lista) {
+        const container = document.getElementById("menu-container");
+        container.innerHTML = lista
+          .map(
+            (p) => `
+        <div class="bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-md hover:shadow-2xl transition transform hover:-translate-y-1">
+          <img src="${p.imagem_url}" alt="${p.nome}" class="rounded-lg mb-4 h-48 w-full object-cover" />
+          <h4 class="text-xl font-semibold mb-2">${p.nome}</h4>
+          <p class="text-sm mb-2">${p.descricao}</p>
+          <p class="text-lg font-bold text-cafe-700 dark:text-cafe-300">R$ ${p.preco
+            .toFixed(2)
+            .replace(".", ",")}</p>
+        </div>`
+          )
+          .join("");
+      }
+
+      function filtrarMenu(id) {
+        if (id === 0) renderizarMenu(window.produtos);
+        else renderizarMenu(window.produtos.filter((p) => p.categoria_id === id));
       }
 
       document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
